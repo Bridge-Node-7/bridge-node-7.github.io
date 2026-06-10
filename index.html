@@ -1,116 +1,204 @@
+```html
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <title>Bridge Node 7 | Verified Systems for Frontier Work</title>
-  <meta name="description" content="Bridge Node 7 builds AI governance, verification, simulations, and outcome-engine systems." />
+  <meta
+    name="description"
+    content="Bridge Node 7 builds verified systems for frontier work, governance, crisis readiness, decision support, and public proof."
+  />
 
   <style>
     :root {
       --bg: #070b14;
-      --panel: #101827;
+      --panel: rgba(15, 23, 42, 0.88);
+      --panel-2: rgba(8, 18, 32, 0.92);
       --text: #f8fafc;
       --muted: #cbd5e1;
-      --line: #263244;
+      --soft: #94a3b8;
+      --line: rgba(148, 163, 184, 0.22);
+      --line-strong: rgba(56, 189, 248, 0.34);
       --accent: #7c3aed;
       --accent-2: #38bdf8;
+      --max: 1080px;
+      --radius: 1.35rem;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       margin: 0;
+      min-height: 100vh;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(124, 58, 237, 0.25), transparent 35%),
-        radial-gradient(circle at top right, rgba(56, 189, 248, 0.16), transparent 30%),
-        var(--bg);
       color: var(--text);
       line-height: 1.6;
+      background:
+        radial-gradient(circle at 18% 8%, rgba(124, 58, 237, 0.30), transparent 30%),
+        radial-gradient(circle at 82% 10%, rgba(56, 189, 248, 0.18), transparent 28%),
+        linear-gradient(180deg, #070b14 0%, #0b1020 52%, #070b14 100%);
     }
 
-    a { color: inherit; }
+    a {
+      color: inherit;
+    }
+
+    .shell {
+      width: min(var(--max), calc(100% - 2rem));
+      margin: 0 auto;
+    }
 
     nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 10;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 1.5rem;
-      background: rgba(7, 11, 20, 0.78);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      inset: 0 0 auto 0;
+      z-index: 20;
+      background: rgba(7, 11, 20, 0.86);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    nav strong { letter-spacing: 0.03em; }
-
-    nav div {
+    .nav-inner {
+      min-height: 72px;
       display: flex;
+      align-items: center;
+      justify-content: space-between;
       gap: 1rem;
     }
 
-    nav a {
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-weight: 900;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-mark {
+      width: 0.85rem;
+      height: 0.85rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.45);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
       color: var(--muted);
       text-decoration: none;
       font-size: 0.95rem;
+      transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus {
+      color: var(--text);
+    }
+
+    .nav-cta {
+      padding: 0.55rem 0.9rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: white !important;
+      font-weight: 850;
+    }
+
+    .nav-cta:hover,
+    .nav-cta:focus {
+      opacity: 0.92;
+      transform: translateY(-1px);
     }
 
     header {
-      min-height: 82vh;
+      min-height: 94vh;
       display: grid;
       place-items: center;
-      padding: 2rem;
+      padding: 8rem 0 5rem;
+      text-align: center;
       border-bottom: 1px solid var(--line);
     }
 
     .hero {
-      max-width: 980px;
-      padding-top: 5rem;
-      text-align: center;
+      max-width: 940px;
+      margin: 0 auto;
     }
 
     .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 0 1rem;
+      padding: 0.45rem 0.85rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
       color: var(--accent-2);
+      background: rgba(15, 23, 42, 0.58);
       text-transform: uppercase;
-      letter-spacing: 0.14em;
-      font-weight: 800;
-      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      font-weight: 850;
+      font-size: 0.78rem;
     }
 
     h1 {
-      margin: 0.75rem 0 1rem;
-      font-size: clamp(2.8rem, 8vw, 6.8rem);
-      line-height: 0.94;
-      letter-spacing: -0.07em;
+      margin: 0;
+      font-size: clamp(3rem, 8vw, 6.35rem);
+      line-height: 0.96;
+      letter-spacing: -0.052em;
+      text-wrap: balance;
     }
 
     .subhead {
-      max-width: 760px;
-      margin: 0 auto 2rem;
+      max-width: 790px;
+      margin: 1.35rem auto 0;
       color: var(--muted);
-      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      font-size: clamp(1.08rem, 2vw, 1.32rem);
+      text-wrap: balance;
+    }
+
+    .line {
+      max-width: 760px;
+      margin: 1.4rem auto 0;
+      color: var(--text);
+      font-weight: 800;
+      font-style: italic;
+      text-wrap: balance;
     }
 
     .actions {
       display: flex;
       justify-content: center;
-      gap: 1rem;
+      align-items: center;
+      gap: 0.85rem;
       flex-wrap: wrap;
+      margin-top: 2rem;
     }
 
     .button {
-      display: inline-block;
-      padding: 0.9rem 1.2rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0.85rem 1.18rem;
       border-radius: 999px;
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
       color: white;
-      font-weight: 800;
+      font-weight: 850;
       text-decoration: none;
+      transition: transform 0.2s ease, opacity 0.2s ease;
     }
 
     .button.secondary {
@@ -119,141 +207,488 @@
       color: var(--text);
     }
 
-    main {
-      max-width: 1120px;
-      margin: auto;
-      padding: 4rem 1.5rem;
+    .button:hover,
+    .button:focus {
+      transform: translateY(-1px);
+      opacity: 0.92;
     }
 
-    section { margin-bottom: 3rem; }
+    .proof-strip {
+      border-top: 1px solid var(--line-strong);
+      border-bottom: 1px solid var(--line);
+      background: rgba(8, 20, 34, 0.72);
+    }
+
+    .proof-strip-inner {
+      min-height: 72px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      text-align: center;
+    }
+
+    .proof-label {
+      color: var(--soft);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .pulse {
+      display: inline-block;
+      width: 0.5rem;
+      height: 0.5rem;
+      margin-right: 0.45rem;
+      border-radius: 999px;
+      background: var(--accent-2);
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.75);
+    }
+
+    .proof-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.32rem 0.72rem;
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      border-radius: 999px;
+      color: #93e7ff;
+      background: rgba(14, 116, 144, 0.18);
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    main {
+      padding: 4.5rem 0;
+    }
+
+    section {
+      scroll-margin-top: 96px;
+      margin-bottom: 4rem;
+    }
+
+    .section-heading {
+      max-width: 780px;
+      margin: 0 auto 1.4rem;
+      text-align: center;
+    }
 
     h2 {
-      font-size: clamp(1.8rem, 4vw, 3rem);
-      letter-spacing: -0.04em;
-      margin-bottom: 1rem;
+      margin: 0 0 0.65rem;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 1.05;
+      letter-spacing: -0.043em;
+      text-wrap: balance;
     }
 
-    .panel, .card {
-      background: rgba(16, 24, 39, 0.82);
-      border: 1px solid var(--line);
-      border-radius: 1.25rem;
-      padding: 1.35rem;
+    .section-heading p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      text-wrap: balance;
     }
 
     .grid {
       display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 1rem;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     }
 
-    .card h3 { margin-top: 0; }
+    .proof-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
 
-    .card p, .panel p {
+    .card,
+    .panel,
+    .artifact {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 18px 70px rgba(0, 0, 0, 0.18);
+    }
+
+    .card {
+      min-height: 268px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.35rem;
+    }
+
+    .card h3 {
+      margin: 0 0 0.65rem;
+      font-size: 1.22rem;
+      letter-spacing: -0.02em;
+    }
+
+    .card p {
+      margin: 0;
       color: var(--muted);
     }
 
-    .doctrine {
-      font-size: 1.25rem;
-      color: var(--text);
+    .card a,
+    .artifact a {
+      display: inline-flex;
+      margin-top: 1rem;
+      color: var(--accent-2);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .card a:hover,
+    .card a:focus,
+    .artifact a:hover,
+    .artifact a:focus {
+      text-decoration: underline;
+    }
+
+    .panel {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: clamp(1.35rem, 3vw, 2.2rem);
+      text-align: center;
+    }
+
+    .panel p {
+      max-width: 760px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 1.07rem;
+      text-wrap: balance;
+    }
+
+    .panel p + p {
+      margin-top: 1rem;
+    }
+
+    .shift-line {
+      color: var(--text) !important;
+      font-size: clamp(1.12rem, 2.2vw, 1.32rem) !important;
+      font-weight: 900;
+    }
+
+    .stakes-line {
+      color: var(--text) !important;
+      font-weight: 800;
+    }
+
+    .artifact {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      padding: 1.2rem;
+      background: var(--panel-2);
+    }
+
+    .artifact-mark {
+      display: inline-grid;
+      place-items: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      border: 1px solid rgba(56, 189, 248, 0.42);
+      border-radius: 0.7rem;
+      color: var(--accent-2);
+      background: rgba(14, 116, 144, 0.18);
+      font-weight: 900;
+      font-size: 0.85rem;
+    }
+
+    .artifact h3 {
+      margin: 0 0 0.45rem;
+      font-size: 1.08rem;
+      letter-spacing: -0.02em;
+    }
+
+    .artifact p {
+      margin: 0;
+      color: var(--muted);
     }
 
     footer {
       border-top: 1px solid var(--line);
-      padding: 2rem 1.5rem;
-      text-align: center;
-      color: var(--muted);
+      padding: 2rem 1rem;
+      color: var(--soft);
+    }
+
+    .footer-inner {
+      width: min(var(--max), calc(100% - 2rem));
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    .footer-contact a {
+      color: var(--accent-2);
+      text-decoration: none;
+      font-weight: 800;
+    }
+
+    .footer-contact a:hover,
+    .footer-contact a:focus {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 860px) {
+      .grid,
+      .proof-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .nav-inner {
+        min-height: auto;
+        padding: 1rem 0;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      header {
+        min-height: 90vh;
+        padding-top: 10rem;
+      }
+
+      .nav-links {
+        justify-content: center;
+      }
+
+      .proof-strip-inner {
+        padding: 1rem 0;
+      }
+
+      .footer-inner {
+        justify-content: center;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 460px) {
+      .shell {
+        width: min(var(--max), calc(100% - 1.25rem));
+      }
+
+      .actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      h1 {
+        letter-spacing: -0.04em;
+      }
+
+      .artifact {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 
 <body>
   <nav>
-    <strong>Bridge Node 7</strong>
-    <div>
-      <a href="#doctrine">Doctrine</a>
-      <a href="#systems">Systems</a>
-      <a href="#github">GitHub</a>
+    <div class="shell nav-inner">
+      <a class="brand" href="#top" aria-label="Bridge Node 7 home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Bridge Node 7</span>
+      </a>
+
+      <div class="nav-links" aria-label="Main navigation">
+        <a href="#work">Work</a>
+        <a href="#shift">The Shift</a>
+        <a href="#proof">Proof</a>
+        <a class="nav-cta" href="mailto:contact@bridgenode7.com">Get in touch</a>
+      </div>
     </div>
   </nav>
 
-  <header>
-    <div class="hero">
-      <p class="eyebrow">Verification • Governance • Simulations • Outcomes</p>
-      <h1>Verified systems for frontier work.</h1>
-      <p class="subhead">
-        Bridge Node 7 builds repeatable systems for AI governance, verification,
-        crisis simulations, and decision-ready outcomes.
-      </p>
-      <div class="actions">
-        <a class="button" href="#systems">Explore Systems</a>
-        <a class="button secondary" href="https://github.com/Bridge-Node-7">View GitHub</a>
+  <header id="top">
+    <div class="shell">
+      <div class="hero">
+        <p class="eyebrow">Clarity • Trust • Proof</p>
+
+        <h1>Verified systems for frontier work.</h1>
+
+        <p class="subhead">
+          As powerful technologies move into high-stakes work, teams need systems
+          they can understand, test, and trust. Bridge Node 7 builds that layer.
+        </p>
+
+        <p class="line">
+          Judgment stays human. Evidence leads. Systems scale.
+        </p>
+
+        <div class="actions">
+          <a class="button" href="mailto:contact@bridgenode7.com">Get in touch</a>
+          <a class="button secondary" href="#work">View Work</a>
+          <a class="button secondary" href="https://github.com/Bridge-Node-7" target="_blank" rel="noopener noreferrer">Review Proof</a>
+        </div>
       </div>
     </div>
   </header>
 
-  <main>
-    <section id="doctrine" class="panel">
-      <h2>Operating Doctrine</h2>
-      <p class="doctrine">
-        Human judgment stays in command. AI may assist. Evidence decides.
-        Claims must be separated from proof. Every useful idea should become
-        a repeatable system.
-      </p>
-    </section>
+  <aside class="proof-strip" aria-label="Active build status">
+    <div class="shell proof-strip-inner">
+      <span class="proof-label"><span class="pulse" aria-hidden="true"></span>Active build</span>
+      <span class="proof-pill">Shipping publicly</span>
+      <span class="proof-pill">Research available on request</span>
+      <a class="proof-pill" href="https://github.com/Bridge-Node-7" target="_blank" rel="noopener noreferrer">Open on GitHub</a>
+    </div>
+  </aside>
 
-    <section id="systems">
-      <h2>Systems</h2>
+  <main class="shell">
+    <section id="work">
+      <div class="section-heading">
+        <h2>What We Build</h2>
+        <p>Systems for teams where decisions must be clear, traceable, and ready to act on.</p>
+      </div>
+
       <div class="grid">
         <article class="card">
-          <h3>AI Agent Success OS</h3>
-          <p>
-            A practical operating system for turning AI agents into finished outcomes,
-            verified workflows, reusable artifacts, and durable value.
-          </p>
-          <p><a href="https://github.com/Bridge-Node-7/ai-agent-success-os">Open repo →</a></p>
+          <div>
+            <h3>Decision Infrastructure</h3>
+            <p>
+              Workflows that turn hard questions into briefs, options, and next actions
+              with a clear evidence trail.
+            </p>
+          </div>
+          <a href="https://github.com/Bridge-Node-7/ai-agent-success-os" target="_blank" rel="noopener noreferrer">Agent Success OS</a>
         </article>
 
         <article class="card">
-          <h3>SEG V&V Engineering Package</h3>
-          <p>
-            A public verification and validation framework for SEG / Searl Effect
-            Generator claims. Framework only, not experimental proof.
-          </p>
-          <p><a href="https://github.com/Bridge-Node-7/seg-vv-engineering-package">Open repo →</a></p>
+          <div>
+            <h3>Verification Packages</h3>
+            <p>
+              Evidence-first packages that separate claims, assumptions, limits,
+              and review status before confidence becomes a claim.
+            </p>
+          </div>
+          <a href="https://github.com/Bridge-Node-7/seg-vv-engineering-package" target="_blank" rel="noopener noreferrer">SEG V&amp;V Package</a>
         </article>
 
         <article class="card">
-          <h3>Decision-Ready Brief Engine</h3>
-          <p>
-            Signal, source, risk, weak link, opportunity, decision memo,
-            and action package for high-stakes work.
-          </p>
-        </article>
-
-        <article class="card">
-          <h3>Peace-Aligned Governance</h3>
-          <p>
-            Systems that support verification, civilian protection, information integrity,
-            and responsible deployment.
-          </p>
+          <div>
+            <h3>Frontier Readiness</h3>
+            <p>
+              Systems for high-stakes teams that need to move fast without losing control.
+            </p>
+          </div>
+          <a href="https://github.com/Bridge-Node-7" target="_blank" rel="noopener noreferrer">View proof</a>
         </article>
       </div>
     </section>
 
-    <section id="github" class="panel">
-      <h2>GitHub as Proof-of-Work</h2>
-      <p>
-        Bridge Node 7 uses GitHub as a public library of reusable systems:
-        doctrine, templates, simulations, validation packages, and release-ready project sites.
-      </p>
-      <p>
-        <a class="button" href="https://github.com/Bridge-Node-7">Open Bridge-Node-7 on GitHub</a>
-      </p>
+    <section id="shift">
+      <div class="section-heading">
+        <h2>The Shift</h2>
+      </div>
+
+      <div class="panel">
+        <p class="shift-line">
+          Powerful systems will not scale on capability alone. They will scale on trust.
+        </p>
+
+        <p class="stakes-line">
+          When speed outruns proof, mistakes arrive late and correction costs more.
+        </p>
+
+        <p>
+          The future needs visible judgment, tested evidence, and proof people can review
+          before systems scale.
+        </p>
+
+        <p>
+          The work begins with open, reusable packages built to be inspected, trusted, and used.
+        </p>
+      </div>
+    </section>
+
+    <section id="proof">
+      <div class="section-heading">
+        <h2>Public Proof</h2>
+        <p>Versioned, inspectable work built in the open.</p>
+      </div>
+
+      <div class="panel">
+        <div class="proof-grid">
+          <article class="artifact">
+            <span class="artifact-mark">OS</span>
+            <div>
+              <h3>Agent Success OS</h3>
+              <p>
+                Decision workflow system for operators: briefs, options,
+                recommendations, and next actions.
+              </p>
+              <a href="https://github.com/Bridge-Node-7/ai-agent-success-os" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+            </div>
+          </article>
+
+          <article class="artifact">
+            <span class="artifact-mark">V</span>
+            <div>
+              <h3>V&amp;V Engineering Package</h3>
+              <p>
+                Evidence-first verification package built to separate claims,
+                assumptions, limits, and review status.
+              </p>
+              <a href="https://github.com/Bridge-Node-7/seg-vv-engineering-package" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+            </div>
+          </article>
+
+          <article class="artifact">
+            <span class="artifact-mark">R</span>
+            <div>
+              <h3>Research Brief</h3>
+              <p>
+                A June 2026 research brief on quantum and post-classical computing
+                bottlenecks, investment timing, and frontier resilience. Available on request.
+              </p>
+              <a href="mailto:contact@bridgenode7.com">Request research</a>
+            </div>
+          </article>
+
+          <article class="artifact">
+            <span class="artifact-mark">+</span>
+            <div>
+              <h3>All Artifacts</h3>
+              <p>
+                Public library of templates, packages, and decision systems.
+              </p>
+              <a href="https://github.com/Bridge-Node-7" target="_blank" rel="noopener noreferrer">Open GitHub</a>
+            </div>
+          </article>
+        </div>
+      </div>
     </section>
   </main>
 
   <footer>
-    <p>© Bridge Node 7. Built for clarity, verification, and responsible deployment.</p>
+    <div class="footer-inner">
+      <p>© Bridge Node 7 · Verified systems for frontier work.</p>
+      <p class="footer-contact">
+        <a href="mailto:contact@bridgenode7.com">contact@bridgenode7.com</a>
+      </p>
+    </div>
   </footer>
 </body>
 </html>
+```

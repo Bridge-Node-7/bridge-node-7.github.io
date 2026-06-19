@@ -1,694 +1,654 @@
-```html
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <title>Bridge Node 7 | Verified Systems for Frontier Work</title>
-  <meta
-    name="description"
-    content="Bridge Node 7 builds verified systems for frontier work, governance, crisis readiness, decision support, and public proof."
-  />
-
-  <style>
-    :root {
-      --bg: #070b14;
-      --panel: rgba(15, 23, 42, 0.88);
-      --panel-2: rgba(8, 18, 32, 0.92);
-      --text: #f8fafc;
-      --muted: #cbd5e1;
-      --soft: #94a3b8;
-      --line: rgba(148, 163, 184, 0.22);
-      --line-strong: rgba(56, 189, 248, 0.34);
-      --accent: #7c3aed;
-      --accent-2: #38bdf8;
-      --max: 1080px;
-      --radius: 1.35rem;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      line-height: 1.6;
-      background:
-        radial-gradient(circle at 18% 8%, rgba(124, 58, 237, 0.30), transparent 30%),
-        radial-gradient(circle at 82% 10%, rgba(56, 189, 248, 0.18), transparent 28%),
-        linear-gradient(180deg, #070b14 0%, #0b1020 52%, #070b14 100%);
-    }
-
-    a {
-      color: inherit;
-    }
-
-    .shell {
-      width: min(var(--max), calc(100% - 2rem));
-      margin: 0 auto;
-    }
-
-    nav {
-      position: fixed;
-      inset: 0 0 auto 0;
-      z-index: 20;
-      background: rgba(7, 11, 20, 0.86);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .nav-inner {
-      min-height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.7rem;
-      font-weight: 900;
-      text-decoration: none;
-      letter-spacing: 0.02em;
-    }
-
-    .brand-mark {
-      width: 0.85rem;
-      height: 0.85rem;
-      border-radius: 999px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      box-shadow: 0 0 30px rgba(56, 189, 248, 0.45);
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.95rem;
-      transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
-    }
-
-    .nav-links a:hover,
-    .nav-links a:focus {
-      color: var(--text);
-    }
-
-    .nav-cta {
-      padding: 0.55rem 0.9rem;
-      border-radius: 999px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: white !important;
-      font-weight: 850;
-    }
-
-    .nav-cta:hover,
-    .nav-cta:focus {
-      opacity: 0.92;
-      transform: translateY(-1px);
-    }
-
-    header {
-      min-height: 94vh;
-      display: grid;
-      place-items: center;
-      padding: 8rem 0 5rem;
-      text-align: center;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .hero {
-      max-width: 940px;
-      margin: 0 auto;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 0 1rem;
-      padding: 0.45rem 0.85rem;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      color: var(--accent-2);
-      background: rgba(15, 23, 42, 0.58);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-weight: 850;
-      font-size: 0.78rem;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(3rem, 8vw, 6.35rem);
-      line-height: 0.96;
-      letter-spacing: -0.052em;
-      text-wrap: balance;
-    }
-
-    .subhead {
-      max-width: 790px;
-      margin: 1.35rem auto 0;
-      color: var(--muted);
-      font-size: clamp(1.08rem, 2vw, 1.32rem);
-      text-wrap: balance;
-    }
-
-    .line {
-      max-width: 760px;
-      margin: 1.4rem auto 0;
-      color: var(--text);
-      font-weight: 800;
-      font-style: italic;
-      text-wrap: balance;
-    }
-
-    .actions {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 0.85rem;
-      flex-wrap: wrap;
-      margin-top: 2rem;
-    }
-
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 46px;
-      padding: 0.85rem 1.18rem;
-      border-radius: 999px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: white;
-      font-weight: 850;
-      text-decoration: none;
-      transition: transform 0.2s ease, opacity 0.2s ease;
-    }
-
-    .button.secondary {
-      background: transparent;
-      border: 1px solid var(--line);
-      color: var(--text);
-    }
-
-    .button:hover,
-    .button:focus {
-      transform: translateY(-1px);
-      opacity: 0.92;
-    }
-
-    .proof-strip {
-      border-top: 1px solid var(--line-strong);
-      border-bottom: 1px solid var(--line);
-      background: rgba(8, 20, 34, 0.72);
-    }
-
-    .proof-strip-inner {
-      min-height: 72px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 0.8rem;
-      flex-wrap: wrap;
-      text-align: center;
-    }
-
-    .proof-label {
-      color: var(--soft);
-      font-size: 0.82rem;
-      font-weight: 900;
-      letter-spacing: 0.11em;
-      text-transform: uppercase;
-    }
-
-    .pulse {
-      display: inline-block;
-      width: 0.5rem;
-      height: 0.5rem;
-      margin-right: 0.45rem;
-      border-radius: 999px;
-      background: var(--accent-2);
-      box-shadow: 0 0 18px rgba(56, 189, 248, 0.75);
-    }
-
-    .proof-pill {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.32rem 0.72rem;
-      border: 1px solid rgba(56, 189, 248, 0.45);
-      border-radius: 999px;
-      color: #93e7ff;
-      background: rgba(14, 116, 144, 0.18);
-      font-size: 0.82rem;
-      font-weight: 800;
-      text-decoration: none;
-    }
-
-    main {
-      padding: 4.5rem 0;
-    }
-
-    section {
-      scroll-margin-top: 96px;
-      margin-bottom: 4rem;
-    }
-
-    .section-heading {
-      max-width: 780px;
-      margin: 0 auto 1.4rem;
-      text-align: center;
-    }
-
-    h2 {
-      margin: 0 0 0.65rem;
-      font-size: clamp(1.9rem, 4vw, 3rem);
-      line-height: 1.05;
-      letter-spacing: -0.043em;
-      text-wrap: balance;
-    }
-
-    .section-heading p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 1.05rem;
-      text-wrap: balance;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1rem;
-    }
-
-    .proof-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1rem;
-      margin-top: 1.5rem;
-    }
-
-    .card,
-    .panel,
-    .artifact {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: 0 18px 70px rgba(0, 0, 0, 0.18);
-    }
-
-    .card {
-      min-height: 268px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 1.35rem;
-    }
-
-    .card h3 {
-      margin: 0 0 0.65rem;
-      font-size: 1.22rem;
-      letter-spacing: -0.02em;
-    }
-
-    .card p {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    .card a,
-    .artifact a {
-      display: inline-flex;
-      margin-top: 1rem;
-      color: var(--accent-2);
-      font-weight: 800;
-      text-decoration: none;
-    }
-
-    .card a:hover,
-    .card a:focus,
-    .artifact a:hover,
-    .artifact a:focus {
-      text-decoration: underline;
-    }
-
-    .panel {
-      max-width: 920px;
-      margin: 0 auto;
-      padding: clamp(1.35rem, 3vw, 2.2rem);
-      text-align: center;
-    }
-
-    .panel p {
-      max-width: 760px;
-      margin: 0 auto;
-      color: var(--muted);
-      font-size: 1.07rem;
-      text-wrap: balance;
-    }
-
-    .panel p + p {
-      margin-top: 1rem;
-    }
-
-    .shift-line {
-      color: var(--text) !important;
-      font-size: clamp(1.12rem, 2.2vw, 1.32rem) !important;
-      font-weight: 900;
-    }
-
-    .stakes-line {
-      color: var(--text) !important;
-      font-weight: 800;
-    }
-
-    .artifact {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 1rem;
-      padding: 1.2rem;
-      background: var(--panel-2);
-    }
-
-    .artifact-mark {
-      display: inline-grid;
-      place-items: center;
-      width: 2.25rem;
-      height: 2.25rem;
-      border: 1px solid rgba(56, 189, 248, 0.42);
-      border-radius: 0.7rem;
-      color: var(--accent-2);
-      background: rgba(14, 116, 144, 0.18);
-      font-weight: 900;
-      font-size: 0.85rem;
-    }
-
-    .artifact h3 {
-      margin: 0 0 0.45rem;
-      font-size: 1.08rem;
-      letter-spacing: -0.02em;
-    }
-
-    .artifact p {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    footer {
-      border-top: 1px solid var(--line);
-      padding: 2rem 1rem;
-      color: var(--soft);
-    }
-
-    .footer-inner {
-      width: min(var(--max), calc(100% - 2rem));
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    footer p {
-      margin: 0;
-    }
-
-    .footer-contact a {
-      color: var(--accent-2);
-      text-decoration: none;
-      font-weight: 800;
-    }
-
-    .footer-contact a:hover,
-    .footer-contact a:focus {
-      text-decoration: underline;
-    }
-
-    @media (max-width: 860px) {
-      .grid,
-      .proof-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .card {
-        min-height: auto;
-      }
-    }
-
-    @media (max-width: 700px) {
-      .nav-inner {
-        min-height: auto;
-        padding: 1rem 0;
-        flex-direction: column;
-        justify-content: center;
-      }
-
-      header {
-        min-height: 90vh;
-        padding-top: 10rem;
-      }
-
-      .nav-links {
-        justify-content: center;
-      }
-
-      .proof-strip-inner {
-        padding: 1rem 0;
-      }
-
-      .footer-inner {
-        justify-content: center;
-        text-align: center;
-      }
-    }
-
-    @media (max-width: 460px) {
-      .shell {
-        width: min(var(--max), calc(100% - 1.25rem));
-      }
-
-      .actions {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .button {
-        width: 100%;
-      }
-
-      h1 {
-        letter-spacing: -0.04em;
-      }
-
-      .artifact {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Bridge Node 7 advances emerging technology for global resilience." />
+<meta property="og:title" content="Bridge Node 7 | Emerging Technology" />
+<meta property="og:description" content="Emerging technology for global resilience." />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#06101f" />
+<title>Bridge Node 7 | Emerging Technology</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23f1c86b'/%3E%3Ctext x='50' y='63' font-size='52' font-weight='900' fill='%23050914' text-anchor='middle'%3E7%3C/text%3E%3C/svg%3E" />
+<style>
+:root {
+  --bg: #050914;
+  --panel2: #0a1428;
+  --text: #f7f9ff;
+  --soft: #dfe8f8;
+  --muted: #aeb8c8;
+  --line: rgba(255,255,255,.14);
+  --gold: #f1c86b;
+  --gold2: #fff0b3;
+  --blue: #78d7ff;
+  --violet: #c6a7ff;
+  --shadow: 0 24px 80px rgba(0,0,0,.48);
+  --radius: 28px;
+  --max: 1160px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 18% 8%,rgba(120,215,255,.17),transparent 28rem),
+    radial-gradient(circle at 82% 12%,rgba(198,167,255,.16),transparent 30rem),
+    radial-gradient(circle at 50% 47%,rgba(241,200,107,.1),transparent 34rem),
+    linear-gradient(180deg,var(--bg) 0%,#071425 45%,#04070f 100%);
+  overflow-x:hidden;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  pointer-events:none;
+  opacity:.28;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:72px 72px;
+  mask-image:linear-gradient(to bottom,black 0%,rgba(0,0,0,.7) 48%,transparent 100%);
+}
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 16% 22%,rgba(255,255,255,.72) 0 1px,transparent 1.4px),
+    radial-gradient(circle at 39% 16%,rgba(255,255,255,.5) 0 1px,transparent 1.5px),
+    radial-gradient(circle at 74% 17%,rgba(255,255,255,.62) 0 1px,transparent 1.4px),
+    radial-gradient(circle at 89% 38%,rgba(255,255,255,.44) 0 1px,transparent 1.4px),
+    radial-gradient(circle at 63% 72%,rgba(255,255,255,.38) 0 1px,transparent 1.3px),
+    radial-gradient(circle at 27% 82%,rgba(255,255,255,.42) 0 1px,transparent 1.3px);
+}
+a{color:inherit;text-decoration:none}
+.skip-link{
+  position:absolute;
+  left:16px;
+  top:-60px;
+  z-index:200;
+  background:var(--gold2);
+  color:#07111f;
+  padding:10px 14px;
+  border-radius:999px;
+  font-weight:900;
+}
+.skip-link:focus{top:12px}
+a:focus-visible{outline:2px solid var(--gold2);outline-offset:4px}
+section[id]{scroll-margin-top:88px}
+.topline{
+  position:fixed;
+  top:0;
+  left:0;
+  height:3px;
+  width:0;
+  background:linear-gradient(90deg,var(--gold),var(--blue),var(--violet));
+  z-index:100;
+}
+.nav{
+  position:sticky;
+  top:0;
+  z-index:20;
+  backdrop-filter:blur(18px);
+  background:linear-gradient(180deg,rgba(5,9,20,.88),rgba(5,9,20,.58));
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.nav-inner{
+  max-width:var(--max);
+  margin:0 auto;
+  padding:18px 22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:850;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  font-size:13px;
+}
+.mark{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:
+    radial-gradient(circle at 50% 50%,rgba(255,240,179,.95),rgba(241,200,107,.45) 35%,rgba(120,215,255,.12) 62%,transparent 72%),
+    linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.04));
+  border:1px solid rgba(255,240,179,.5);
+  box-shadow:0 0 36px rgba(241,200,107,.18),inset 0 0 18px rgba(255,255,255,.16);
+  position:relative;
+}
+.mark::before,.mark::after{
+  content:"";
+  position:absolute;
+  inset:7px;
+  border:1px solid rgba(255,255,255,.28);
+  border-radius:45%;
+  transform:rotate(38deg);
+}
+.mark::after{
+  transform:rotate(-38deg);
+  border-color:rgba(120,215,255,.35);
+}
+.mark span{
+  font-size:15px;
+  color:#050914;
+  text-shadow:0 1px 18px rgba(255,255,255,.7);
+  z-index:1;
+}
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+.nav-links a{
+  color:var(--muted);
+  padding:9px 12px;
+  border:1px solid transparent;
+  border-radius:999px;
+  font-size:13px;
+}
+.nav-links a:hover{
+  color:#fff;
+  border-color:rgba(255,255,255,.14);
+  background:rgba(255,255,255,.06);
+}
+.nav-links .cta-mini{
+  color:#07111f;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  font-weight:850;
+  border:0;
+  white-space:nowrap;
+}
+.shell{max-width:var(--max);margin:0 auto;padding:0 22px}
+.hero{
+  min-height:calc(100svh - 70px);
+  display:grid;
+  align-items:center;
+  padding:66px 0 54px;
+}
+.hero-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:34px;
+  align-items:center;
+  text-align:center;
+  justify-items:center;
+}
+h1{
+  font-size:clamp(42px,5.6vw,76px);
+  line-height:.94;
+  letter-spacing:-.065em;
+  margin:0 auto 22px;
+  max-width:980px;
+}
+h2{
+  font-size:clamp(34px,4.2vw,58px);
+  line-height:1;
+  letter-spacing:-.055em;
+  margin:0;
+}
+h3{letter-spacing:-.025em}
+.gradient-text{
+  background:linear-gradient(135deg,#fff 0%,var(--gold2) 34%,var(--blue) 70%,var(--violet) 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.lead{
+  font-size:clamp(18px,1.85vw,23px);
+  line-height:1.42;
+  color:var(--soft);
+  max-width:800px;
+  margin:0 auto 22px;
+}
+.lead strong{color:#fff;font-weight:850}
+.tagline-three{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin:22px auto 0;
+  max-width:720px;
+  color:var(--soft);
+  font-size:15px;
+  font-weight:850;
+  letter-spacing:.02em;
+}
+.tagline-three span{
+  border:1px solid rgba(255,255,255,.11);
+  background:rgba(255,255,255,.045);
+  border-radius:999px;
+  padding:11px 12px;
+  text-align:center;
+}
+.orbital{
+  width:min(100%,940px);
+  min-height:560px;
+  border-radius:36px;
+  border:1px solid rgba(255,255,255,.12);
+  background:
+    radial-gradient(circle at 50% 50%,rgba(241,200,107,.2),transparent 12rem),
+    radial-gradient(circle at 20% 20%,rgba(120,215,255,.13),transparent 18rem),
+    rgba(255,255,255,.045);
+  box-shadow:var(--shadow);
+  position:relative;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  isolation:isolate;
+}
+.orbital::before{
+  content:"";
+  position:absolute;
+  inset:36px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:50%;
+  animation:spin 42s linear infinite;
+}
+.orbital::after{
+  content:"";
+  position:absolute;
+  inset:88px;
+  border:1px dashed rgba(120,215,255,.2);
+  border-radius:50%;
+  animation:spin 26s linear infinite reverse;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.center-node{
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  background:
+    radial-gradient(circle at 45% 32%,#fff9d7 0 8%,var(--gold) 20%,rgba(241,200,107,.24) 47%,rgba(120,215,255,.08) 72%,transparent 100%);
+  border:1px solid rgba(255,240,179,.65);
+  box-shadow:0 0 80px rgba(241,200,107,.38),inset 0 0 30px rgba(255,255,255,.22);
+  z-index:2;
+}
+.center-node strong{
+  display:block;
+  font-size:64px;
+  letter-spacing:-.09em;
+  color:#07111f;
+  text-shadow:0 1px 20px rgba(255,255,255,.7);
+}
+.center-node span{
+  display:block;
+  color:#07111f;
+  font-size:11px;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  font-weight:900;
+  margin-top:-8px;
+  line-height:1.15;
+}
+.node{
+  position:absolute;
+  z-index:3;
+  width:138px;
+  min-height:74px;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:20px;
+  background:rgba(5,9,20,.74);
+  backdrop-filter:blur(16px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:12px;
+  box-shadow:0 18px 50px rgba(0,0,0,.28);
+}
+.node small{
+  color:var(--gold2);
+  font-weight:900;
+  font-size:11px;
+  letter-spacing:.12em;
+  margin-bottom:5px;
+}
+.node b{font-size:13.5px;line-height:1.2}
+.n1{top:38px;left:50%;transform:translateX(-50%)}
+.n2{top:92px;right:96px}
+.n3{right:38px;top:50%;transform:translateY(-50%)}
+.n4{bottom:66px;right:118px}
+.n5{bottom:66px;left:118px}
+.n6{left:38px;top:50%;transform:translateY(-50%)}
+.n7{top:92px;left:96px}
+section{padding:76px 0}
+.section-head{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:18px;
+  text-align:center;
+  justify-items:center;
+  margin:0 auto 28px;
+  max-width:980px;
+}
+.section-head p{
+  font-size:clamp(18px,1.8vw,22px);
+  color:var(--soft);
+  line-height:1.72;
+  max-width:760px;
+  margin:0 auto;
+  text-align:center;
+}
+.card,.pitch-box{
+  border:1px solid var(--line);
+  background:linear-gradient(180deg,var(--panel2),rgba(255,255,255,.04));
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  text-align:center;
+}
+.steps{
+  display:grid;
+  gap:14px;
+  max-width:900px;
+  margin:0 auto;
+  grid-template-columns:repeat(3,1fr);
+}
+.step{
+  display:grid;
+  text-align:center;
+  justify-items:center;
+  align-items:start;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:18px;
+  background:rgba(255,255,255,.045);
+  padding:18px;
+}
+.step i{
+  font-style:normal;
+  display:grid;
+  place-items:center;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:rgba(241,200,107,.16);
+  border:1px solid rgba(241,200,107,.26);
+  color:var(--gold2);
+  font-weight:900;
+  margin-bottom:8px;
+}
+.step b{display:block;margin:0 0 4px}
+.step span{display:block;color:var(--muted);line-height:1.5}
+.domain-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+.card{padding:22px;min-height:174px}
+.card .num{
+  color:var(--gold2);
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.14em;
+}
+.card h3{font-size:22px;margin:12px 0 8px}
+.card p{
+  color:var(--muted);
+  line-height:1.62;
+  margin:0;
+  font-size:15px;
+  letter-spacing:.01em;
+}
+.domain-grid .card:last-child{grid-column:2 / 3}
+.pitch-box{padding:34px;max-width:900px;margin:0 auto}
+.pitch-copy{
+  font-size:clamp(18px,2vw,22px);
+  line-height:1.58;
+  color:var(--soft);
+  max-width:760px;
+  margin:16px auto 0;
+}
+.pitch-copy p{margin:0 auto 10px}
+.pitch-copy p:last-child{margin-bottom:0}
+.copy-actions{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-top:24px;
+}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  padding:14px 20px;
+  font-weight:850;
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 12px 40px rgba(0,0,0,.22);
+  transition:.22s ease;
+  background:rgba(255,255,255,.06);
+  font:inherit;
+  color:#fff;
+}
+.btn:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.32)}
+.btn.primary{
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  color:#07111f;
+  border:0;
+}
+.btn.invest-now{
+  font-size:16px;
+  letter-spacing:.02em;
+  min-width:190px;
+}
+.footer{
+  border-top:1px solid rgba(255,255,255,.08);
+  padding:36px 0 48px;
+  color:var(--muted);
+  text-align:center;
+}
+.footer strong{color:#fff}
+.footer a{color:#fff}
+.footer p{line-height:1.7;margin:8px 0}
+
+@media (min-width:921px) and (max-height:850px){
+  .hero{min-height:auto;padding:48px 0 44px}
+  h1{font-size:clamp(42px,4.9vw,66px)}
+  .lead{font-size:18px;max-width:740px}
+  .orbital{min-height:430px;max-width:820px}
+  .center-node{width:124px;height:124px}
+  .center-node strong{font-size:54px}
+  .node{width:116px;min-height:64px}
+  .n1{top:24px}
+  .n2{top:72px;right:74px}
+  .n3{right:24px}
+  .n4{bottom:52px;right:96px}
+  .n5{bottom:52px;left:96px}
+  .n6{left:24px}
+  .n7{top:72px;left:74px}
+}
+@media (max-width:920px){
+  .steps{grid-template-columns:1fr}
+  .domain-grid{grid-template-columns:repeat(2,1fr)}
+  .domain-grid .card:last-child{grid-column:1 / -1;max-width:440px;justify-self:center}
+  .orbital{min-height:500px}
+  .node{width:112px}
+  .n2{top:88px;right:36px}
+  .n3{right:18px}
+  .n4{bottom:54px;right:58px}
+  .n5{bottom:54px;left:58px}
+  .n6{left:18px}
+  .n7{top:88px;left:36px}
+  .tagline-three{grid-template-columns:1fr;max-width:420px}
+}
+@media (max-width:640px){
+  .nav-inner{padding:14px 16px}
+  .brand{font-size:11.5px;gap:9px}
+  .mark{width:34px;height:34px}
+  .nav-links a:not(.cta-mini){display:none}
+  .nav-links .cta-mini{font-size:12px;padding:9px 11px}
+  .shell{padding:0 16px}
+  .hero{min-height:auto;padding-top:54px}
+  .orbital{
+    width:100%;
+    min-height:auto;
+    border-radius:28px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(118px,1fr));
+    gap:8px;
+    align-items:stretch;
+    justify-items:stretch;
+    padding:16px;
+  }
+  .orbital::before,.orbital::after{display:none}
+  .node{
+    position:static;
+    transform:none!important;
+    width:100%;
+    min-height:auto;
+    padding:14px 12px;
+  }
+  .center-node{
+    width:118px;
+    height:118px;
+    order:-1;
+    grid-column:1 / -1;
+    justify-self:center;
+    margin:8px 0 12px;
+  }
+  .center-node strong{font-size:50px}
+  section{padding:58px 0}
+  .btn{width:100%}
+  .domain-grid{grid-template-columns:1fr}
+  .domain-grid .card:last-child{grid-column:auto;max-width:none}
+  .pitch-box{padding:26px}
+  .tagline-three{gap:8px}
+  .tagline-three span{padding:10px 12px}
+}
+</style>
 </head>
-
 <body>
-  <nav>
-    <div class="shell nav-inner">
-      <a class="brand" href="#top" aria-label="Bridge Node 7 home">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <span>Bridge Node 7</span>
-      </a>
-
-      <div class="nav-links" aria-label="Main navigation">
-        <a href="#work">Work</a>
-        <a href="#shift">The Shift</a>
-        <a href="#proof">Proof</a>
-        <a class="nav-cta" href="mailto:contact@bridgenode7.com">Get in touch</a>
+<a class="skip-link" href="#main">Skip to main content</a>
+<div class="topline" id="topline"></div>
+<header class="nav" aria-label="Primary navigation">
+  <div class="nav-inner">
+    <a class="brand" href="#main" aria-label="Bridge Node 7 home">
+      <span class="mark"><span>7</span></span>
+      <span>Bridge Node 7</span>
+    </a>
+    <nav class="nav-links" aria-label="Page sections">
+      <a href="#build">Build</a>
+      <a href="#domains">Domains</a>
+      <a href="#capital">Capital</a>
+      <a class="cta-mini" href="mailto:invest@bridgenode7.com?subject=Bridge%20Node%207&amp;body=I%20would%20like%20to%20connect%20about%20Bridge%20Node%207.">Contact</a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+  <div class="shell">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-grid">
+        <div>
+          <h1 id="hero-title"><span class="gradient-text">Emerging technology</span> for quantum, space, and cyber.</h1>
+          <p class="lead">Bridge Node 7 connects <strong>advanced technology, capital, and real-world deployment</strong> for global resilience.</p>
+          <div class="tagline-three" aria-label="Bridge Node 7 movement">
+            <span>Build</span>
+            <span>Align</span>
+            <span>Execute</span>
+          </div>
+        </div>
+        <aside class="orbital" aria-label="Bridge Node 7 seven-domain model">
+          <div class="center-node">
+            <div>
+              <strong>7</strong>
+              <span>Global<br>Resilience</span>
+            </div>
+          </div>
+          <div class="node n1"><small>01</small><b>Emerging Tech</b></div>
+          <div class="node n2"><small>02</small><b>Quantum</b></div>
+          <div class="node n3"><small>03</small><b>Space</b></div>
+          <div class="node n4"><small>04</small><b>Cybersecurity</b></div>
+          <div class="node n5"><small>05</small><b>Artificial Intelligence</b></div>
+          <div class="node n6"><small>06</small><b>Critical Minerals</b></div>
+          <div class="node n7"><small>07</small><b>Public-Private Partnerships</b></div>
+        </aside>
       </div>
-    </div>
-  </nav>
+    </section>
+  </div>
 
-  <header id="top">
+  <section id="build">
     <div class="shell">
-      <div class="hero">
-        <p class="eyebrow">Clarity • Trust • Proof</p>
+      <div class="section-head">
+        <h2>We build the future here now.</h2>
+        <p>Bridge Node 7 transforms emerging technology into real-world capability.</p>
+      </div>
+      <div class="steps" aria-label="Bridge Node 7 movement">
+        <div class="step"><i>1</i><div><b>Build</b><span>Create real capability.</span></div></div>
+        <div class="step"><i>2</i><div><b>Align</b><span>Connect capital and partners.</span></div></div>
+        <div class="step"><i>3</i><div><b>Execute</b><span>Make it real.</span></div></div>
+      </div>
+    </div>
+  </section>
 
-        <h1>Verified systems for frontier work.</h1>
+  <section id="domains">
+    <div class="shell">
+      <div class="section-head">
+        <h2>Seven domains.<br>One center.</h2>
+        <p>Global resilience.</p>
+      </div>
+      <div class="domain-grid">
+        <article class="card"><div class="num">01</div><h3>Emerging Technology</h3><p>Systems. Markets. Ventures.</p></article>
+        <article class="card"><div class="num">02</div><h3>Quantum</h3><p>Computing. Sensing. Spintronics.</p></article>
+        <article class="card"><div class="num">03</div><h3>Space</h3><p>Imaging. Communications. Encryption.</p></article>
+        <article class="card"><div class="num">04</div><h3>Cybersecurity</h3><p>Identity. Access. Assurance.</p></article>
+        <article class="card"><div class="num">05</div><h3>Artificial Intelligence</h3><p>Automation. Speed. Governance.</p></article>
+        <article class="card"><div class="num">06</div><h3>Critical Minerals</h3><p>Supply Chains. Processing. Resilience.</p></article>
+        <article class="card"><div class="num">07</div><h3>Public-Private Partnerships</h3><p>Government. Capital. Industry.</p></article>
+      </div>
+    </div>
+  </section>
 
-        <p class="subhead">
-          As powerful technologies move into high-stakes work, teams need systems
-          they can understand, test, and trust. Bridge Node 7 builds that layer.
-        </p>
-
-        <p class="line">
-          Judgment stays human. Evidence leads. Systems scale.
-        </p>
-
-        <div class="actions">
-          <a class="button" href="mailto:contact@bridgenode7.com">Get in touch</a>
-          <a class="button secondary" href="#work">View Work</a>
-          <a class="button secondary" href="https://github.com/Bridge-Node-7" target="_blank" rel="noopener noreferrer">Review Proof</a>
+  <section id="capital">
+    <div class="shell">
+      <div class="pitch-box">
+        <h2>Activate.</h2>
+        <div class="pitch-copy">
+          <p>Bridge Node 7 advances emerging technology for global resilience.</p>
+          <p>Capital transforms strategy into products, partnerships, and commercial execution.</p>
+        </div>
+        <div class="copy-actions">
+          <a class="btn primary invest-now" href="mailto:invest@bridgenode7.com?subject=Bridge%20Node%207%20Capital%20Inquiry&amp;body=I%20would%20like%20to%20connect%20about%20capital%20and%20Bridge%20Node%207.">Invest Here Now</a>
         </div>
       </div>
     </div>
-  </header>
+  </section>
+</main>
 
-  <aside class="proof-strip" aria-label="Active build status">
-    <div class="shell proof-strip-inner">
-      <span class="proof-label"><span class="pulse" aria-hidden="true"></span>Active build</span>
-      <span class="proof-pill">Shipping publicly</span>
-      <span class="proof-pill">Research available on request</span>
-      <a class="proof-pill" href="https://github.com/Bridge-Node-7" target="_blank" rel="noopener noreferrer">Open on GitHub</a>
-    </div>
-  </aside>
+<footer class="footer">
+  <div class="shell">
+    <p><strong>Bridge Node 7</strong></p>
+    <p>Emerging technology for global resilience.</p>
+    <p><a href="mailto:invest@bridgenode7.com">invest@bridgenode7.com</a></p>
+  </div>
+</footer>
 
-  <main class="shell">
-    <section id="work">
-      <div class="section-heading">
-        <h2>What We Build</h2>
-        <p>Systems for teams where decisions must be clear, traceable, and ready to act on.</p>
-      </div>
-
-      <div class="grid">
-        <article class="card">
-          <div>
-            <h3>Decision Infrastructure</h3>
-            <p>
-              Workflows that turn hard questions into briefs, options, and next actions
-              with a clear evidence trail.
-            </p>
-          </div>
-          <a href="https://github.com/Bridge-Node-7/ai-agent-success-os" target="_blank" rel="noopener noreferrer">Agent Success OS</a>
-        </article>
-
-        <article class="card">
-          <div>
-            <h3>Verification Packages</h3>
-            <p>
-              Evidence-first packages that separate claims, assumptions, limits,
-              and review status before confidence becomes a claim.
-            </p>
-          </div>
-          <a href="https://github.com/Bridge-Node-7/seg-vv-engineering-package" target="_blank" rel="noopener noreferrer">SEG V&amp;V Package</a>
-        </article>
-
-        <article class="card">
-          <div>
-            <h3>Frontier Readiness</h3>
-            <p>
-              Systems for high-stakes teams that need to move fast without losing control.
-            </p>
-          </div>
-          <a href="https://github.com/Bridge-Node-7" target="_blank" rel="noopener noreferrer">View proof</a>
-        </article>
-      </div>
-    </section>
-
-    <section id="shift">
-      <div class="section-heading">
-        <h2>The Shift</h2>
-      </div>
-
-      <div class="panel">
-        <p class="shift-line">
-          Powerful systems will not scale on capability alone. They will scale on trust.
-        </p>
-
-        <p class="stakes-line">
-          When speed outruns proof, mistakes arrive late and correction costs more.
-        </p>
-
-        <p>
-          The future needs visible judgment, tested evidence, and proof people can review
-          before systems scale.
-        </p>
-
-        <p>
-          The work begins with open, reusable packages built to be inspected, trusted, and used.
-        </p>
-      </div>
-    </section>
-
-    <section id="proof">
-      <div class="section-heading">
-        <h2>Public Proof</h2>
-        <p>Versioned, inspectable work built in the open.</p>
-      </div>
-
-      <div class="panel">
-        <div class="proof-grid">
-          <article class="artifact">
-            <span class="artifact-mark">OS</span>
-            <div>
-              <h3>Agent Success OS</h3>
-              <p>
-                Decision workflow system for operators: briefs, options,
-                recommendations, and next actions.
-              </p>
-              <a href="https://github.com/Bridge-Node-7/ai-agent-success-os" target="_blank" rel="noopener noreferrer">View on GitHub</a>
-            </div>
-          </article>
-
-          <article class="artifact">
-            <span class="artifact-mark">V</span>
-            <div>
-              <h3>V&amp;V Engineering Package</h3>
-              <p>
-                Evidence-first verification package built to separate claims,
-                assumptions, limits, and review status.
-              </p>
-              <a href="https://github.com/Bridge-Node-7/seg-vv-engineering-package" target="_blank" rel="noopener noreferrer">View on GitHub</a>
-            </div>
-          </article>
-
-          <article class="artifact">
-            <span class="artifact-mark">R</span>
-            <div>
-              <h3>Research Brief</h3>
-              <p>
-                A June 2026 research brief on quantum and post-classical computing
-                bottlenecks, investment timing, and frontier resilience. Available on request.
-              </p>
-              <a href="mailto:contact@bridgenode7.com">Request research</a>
-            </div>
-          </article>
-
-          <article class="artifact">
-            <span class="artifact-mark">+</span>
-            <div>
-              <h3>All Artifacts</h3>
-              <p>
-                Public library of templates, packages, and decision systems.
-              </p>
-              <a href="https://github.com/Bridge-Node-7" target="_blank" rel="noopener noreferrer">Open GitHub</a>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="footer-inner">
-      <p>© Bridge Node 7 · Verified systems for frontier work.</p>
-      <p class="footer-contact">
-        <a href="mailto:contact@bridgenode7.com">contact@bridgenode7.com</a>
-      </p>
-    </div>
-  </footer>
+<script>
+const bar = document.getElementById('topline');
+const onScroll = () => {
+  const h = document.documentElement;
+  const max = h.scrollHeight - h.clientHeight;
+  bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+};
+document.addEventListener('scroll', onScroll, {passive: true});
+onScroll();
+</script>
 </body>
 </html>
-```
